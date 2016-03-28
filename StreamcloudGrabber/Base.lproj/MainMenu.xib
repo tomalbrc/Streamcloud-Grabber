@@ -311,14 +311,14 @@
         <window title="Streamcloud Grabber" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" animationBehavior="documentWindow" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="508" height="99"/>
+            <rect key="contentRect" x="335" y="390" width="508" height="138"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="508" height="99"/>
+                <rect key="frame" x="0.0" y="0.0" width="508" height="138"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fPo-4T-ypW">
-                        <rect key="frame" x="20" y="48" width="391" height="21"/>
+                        <rect key="frame" x="20" y="93" width="391" height="21"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="5jv-lF-GDh">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -326,7 +326,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vRn-Pc-1l1">
-                        <rect key="frame" x="413" y="41" width="81" height="32"/>
+                        <rect key="frame" x="413" y="86" width="81" height="32"/>
                         <buttonCell key="cell" type="push" title="Grab!" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7uc-Yc-86l">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -336,7 +336,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zwV-bD-Meo">
-                        <rect key="frame" x="18" y="27" width="472" height="13"/>
+                        <rect key="frame" x="18" y="72" width="472" height="13"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="4gt-Bh-yhN">
                             <font key="font" metaFont="system" size="10"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -344,11 +344,37 @@
                         </textFieldCell>
                     </textField>
                     <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" doubleValue="14" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="EVr-Bi-Yg8">
-                        <rect key="frame" x="20" y="9" width="468" height="20"/>
+                        <rect key="frame" x="20" y="54" width="468" height="20"/>
                     </progressIndicator>
+                    <box verticalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Iib-sU-f1Z">
+                        <rect key="frame" x="20" y="44" width="468" height="4"/>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <font key="titleFont" metaFont="system"/>
+                    </box>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CEk-WA-gUR">
+                        <rect key="frame" x="173" y="7" width="81" height="32"/>
+                        <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NO2-XL-SQl">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="stopDL:" target="Voe-Tx-rLC" id="GK8-9P-xJr"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Mk-bY-xcQ">
+                        <rect key="frame" x="254" y="7" width="81" height="32"/>
+                        <buttonCell key="cell" type="push" title="Resume" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BEC-oF-fIw">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="resumeDL:" target="Voe-Tx-rLC" id="fhb-H6-ffP"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="326" y="178.5"/>
+            <point key="canvasLocation" x="326" y="198"/>
         </window>
     </objects>
 </document>

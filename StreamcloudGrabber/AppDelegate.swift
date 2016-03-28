@@ -26,8 +26,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSURLConnectionDelegate, NSU
     var id : String?
     var file : String?
     
+    var resumedLength : Int = 0
+    
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         // Insert code here to initialize your application
+        
+        label.stringValue = ""
         
         //self.progressIndicator.doubleValue = 50.0
         window.titlebarAppearsTransparent = true
@@ -57,12 +61,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSURLConnectionDelegate, NSU
             step = 1
             
             // dumb code for testing
-            let file = contents!.componentsSeparatedByString("file: \"")[1].componentsSeparatedByString("\",")[0]
-            self.label.stringValue = (file)
+            file = contents!.componentsSeparatedByString("file: \"")[1].componentsSeparatedByString("\",")[0]
             
-            self.label.stringValue = ("Done! Loading video...")
+            self.label.stringValue = ("Downloading Video, Please wait...")
             
-            let r = NSURLRequest(URL: NSURL(string: file)!)
+            let r = NSURLRequest(URL: NSURL(string: file!)!)
             
             
             conn = nil
@@ -72,13 +75,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSURLConnectionDelegate, NSU
         } else if step == 1 {
             
             
-            self.label.stringValue = ("Downloaded video. Saving...")
+            self.label.stringValue = ("Saving Video to Desktop...")
             do {
-                try dlData!.writeToFile("/Users/tomalbrecht/Desktop/"+fname!+".mp4", options:NSDataWritingOptions.AtomicWrite)
-                self.label.stringValue = ("Done!")
+                try dlData!.writeToFile(NSHomeDirectory()+"/Desktop/"+fname!+".mp4", options:NSDataWritingOptions.AtomicWrite)
+                self.label.stringValue = ("Done, saved video to Desktop!")
                 
             } catch _ {
-                self.label.stringValue = ("Error writing to file. nothing to do here")
+                self.label.stringValue = ("Error writing to file. Nothing to do here")
             }
             
             
@@ -92,7 +95,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSURLConnectionDelegate, NSU
     }
     func connection(connection: NSURLConnection, didFailWithError error: NSError) {
         // failed
-        label.stringValue = "Something failed in step " + String(step+1)
+        label.stringValue = "Something failed in step " + String(step+1) + "."
     }
     func connection(connection: NSURLConnection, didReceiveResponse response: NSURLResponse) {
         // go for it
@@ -101,12 +104,36 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSURLConnectionDelegate, NSU
     func connection(connection: NSURLConnection, didReceiveData data: NSData) {
         // data one by one
         dlData!.appendData(data)
-        self.progressIndicator.doubleValue = Double(dlData!.length) / Double(totalSize!) * 100.0;
+        self.progressIndicator.doubleValue = Double(dlData!.length) / Double(totalSize! + resumedLength) * 100.0;
     }
     
     
+    
+    
+    @IBAction func stopDL(sender: NSButton) {
+        conn?.cancel();
+        label.stringValue = "Stopped download manually. Click the resume button to continue downloading."
+    }
+    
+    @IBAction func resumeDL(sender: NSButton) {
+        step = 1
+        
+        label.stringValue = "Resuming download! Please wait..."
+        
+        resumedLength = dlData!.length
+        
+        let r = NSMutableURLRequest(URL: NSURL(string: file!)!)
+        r.setValue("bytes="+String(dlData!.length)+"-", forHTTPHeaderField: "Range")
+        
+        conn = nil
+        conn = NSURLConnection(request: r, delegate: self)
+        conn?.start();
+    }
+    
     @IBAction func funkyStuff(sender : NSButton) {
         textField.resignFirstResponder()
+        
+        resumedLength = 0
         
         step = 0
         dlData = nil
@@ -138,10 +165,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSURLConnectionDelegate, NSU
             conn = nil
         }
         
+        label.stringValue = ("Getting Video URL...")
+        
         conn = NSURLConnection(request: request, delegate: self)
         conn?.start();
-        
-        label.stringValue = ("starting request")
     }
 }
 
