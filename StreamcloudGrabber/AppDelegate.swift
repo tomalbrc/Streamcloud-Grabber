@@ -61,7 +61,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSURLConnectionDelegate, NSU
             step = 1
             
             // dumb code for testing
-            file = contents!.componentsSeparatedByString("file: \"")[1].componentsSeparatedByString("\",")[0]
+            let arr = contents!.componentsSeparatedByString("file: \"")
+            if arr.count >= 2 {
+                let arr2 = arr[1].componentsSeparatedByString("\",")
+                if arr2.count >= 1 {
+                    file = arr2[0]
+                } else { label.stringValue = "Wrong response!?"; return }
+            } else { label.stringValue = "Wrong response!?"; return }
             
             self.label.stringValue = ("Downloading Video, Please wait...")
             
@@ -130,7 +136,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSURLConnectionDelegate, NSU
         conn?.start();
     }
     
-    @IBAction func funkyStuff(sender : NSButton) {
+    @IBAction func funkyStuff(sender : AnyObject) {
         textField.resignFirstResponder()
         
         resumedLength = 0
@@ -142,6 +148,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSURLConnectionDelegate, NSU
         
         let urlString = textField.stringValue;
         let ar = urlString.componentsSeparatedByString("/")
+        if ar.count < 4 {
+            label.stringValue = "Bad URL!"
+            return
+        }
         id = ar[3]
         fname = ar.last!.componentsSeparatedByString(".html")[0];
         
@@ -157,6 +167,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSURLConnectionDelegate, NSU
         request.HTTPMethod = "POST"
         request.setValue("streamcloud.eu", forHTTPHeaderField: "Host")
         request.setValue(urlString, forHTTPHeaderField: "Referer")
+        request.setValue("Not Mozilla Firefox", forHTTPHeaderField: "User-Agent")
         request.HTTPBody = postData.dataUsingEncoding(NSUTF8StringEncoding)
         
         
